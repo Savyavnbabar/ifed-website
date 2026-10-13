@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Indian Farmer Electronics Device</title>
+  <meta name="description" content="Motor starters, control panels, solar installation and power-saving devices from Bijnor, U.P.">
+  <link rel="icon" href="images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      var t = 'system'; try { t = localStorage.getItem('theme') || 'system'; } catch (e) {}
+      var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      try { if (!localStorage.getItem('welcomeDone')) document.documentElement.classList.add('show-welcome'); }
+      catch (e) { document.documentElement.classList.add('show-welcome'); }
+    })();
+  </script>
+</head>
+<body>
+<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+  <div class="welcome-card">
+    <img src="images/logo.png" alt="" class="welcome-logo">
+    <h1 id="welcome-title">Welcome to <span class="notranslate">Indian Farmer Electronics Device</span></h1>
+    <ol class="steps"><li class="active" data-step-dot="1">Language</li><li data-step-dot="2">Account</li></ol>
+
+    <section class="step" data-step="1">
+      <p class="welcome-sub">Choose your language. You can type its name or pick it from the list.</p>
+      <div class="lang-picker" id="welcome-lang"></div>
+      <button class="btn block" id="lang-next" type="button">Continue</button>
+    </section>
+
+    <section class="step" data-step="2" hidden>
+      <div class="tabs" role="tablist">
+        <button type="button" class="active" data-tab="register">Create Account</button>
+        <button type="button" data-tab="login">Sign In</button>
+      </div>
+      <form id="register-form" class="auth-form" novalidate>
+        <label>Full Name<input name="name" required maxlength="80" autocomplete="name"></label>
+        <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
+        <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15" autocomplete="tel"></label>
+        <label>Password<input name="password" type="password" required minlength="8" autocomplete="new-password"></label>
+        <label>Confirm Password<input name="confirm" type="password" required minlength="8" autocomplete="new-password"></label>
+        <button class="btn block" type="submit">Create Account</button>
+      </form>
+      <form id="login-form" class="auth-form" novalidate hidden>
+        <label>Email<input name="email" type="email" required autocomplete="email"></label>
+        <label>Password<input name="password" type="password" required autocomplete="current-password"></label>
+        <button class="btn block" type="submit">Sign In</button>
+      </form>
+      <p class="auth-status" role="status"></p>
+      <div class="welcome-foot">
+        <button type="button" class="link-btn" id="back-to-lang">← Change language</button>
+        <button type="button" class="link-btn" id="guest-btn">Continue as guest</button>
+      </div>
+    </section>
+  </div>
+</div>
+<header class="nav">
+  <a href="#home" class="brand notranslate"><img src="images/logo.png" alt=""><span>Indian Farmer Electronics Device</span></a>
+  <nav>
+    <a href="#home">Home</a><a href="#services">Our Services</a><a href="#team">Our Team</a><a href="#contact" class="cta">Contact Us</a>
+  </nav>
+  <button class="icon-btn" id="settings-btn" aria-label="Settings" aria-expanded="false" aria-controls="settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
+  <button class="icon-btn menu-btn" aria-label="Menu" onclick="document.body.classList.toggle('menu-open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</header>
+
+<div class="settings" id="settings" role="dialog" aria-label="Settings">
+  <div class="s-page" data-page="menu">
+    <h3>Settings</h3>
+    <button type="button" class="menu-item" data-open="account">
+      <span class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+      <span class="mi-text"><b>Account</b><small id="sub-account">Name, email and phone</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    <button type="button" class="menu-item" data-open="password">
+      <span class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+      <span class="mi-text"><b>Password</b><small id="sub-password">Change your password</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    <button type="button" class="menu-item" data-open="theme">
+      <span class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+      <span class="mi-text"><b>Theme</b><small id="sub-theme">Light, dark or system</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    <button type="button" class="menu-item" data-open="language">
+      <span class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
+      <span class="mi-text"><b>Language</b><small id="sub-language">English</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="s-page" data-page="account" hidden>
+    <button type="button" class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Settings</button>
+    <h3>Account</h3>
+    <div class="signed-out-msg"><p>Sign in to manage your account.</p><button type="button" class="btn block" data-signin>Sign In / Create Account</button></div>
+    <form id="account-form" class="auth-form account-form signed-in-only" novalidate>
+      <label>Full Name<input name="name" required maxlength="80" autocomplete="name"></label>
+      <label>Email<input name="newEmail" type="email" required maxlength="120" autocomplete="email"></label>
+      <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15" autocomplete="tel"></label>
+      <label>Current Password <small>(required to save)</small><input name="currentPassword" type="password" required autocomplete="current-password"></label>
+      <button class="btn block" type="submit">Save Changes</button>
+      <p class="auth-status" role="status"></p>
+      <button type="button" class="btn ghost block" id="sign-out">Sign Out</button>
+    </form>
+  </div>
+
+  <div class="s-page" data-page="password" hidden>
+    <button type="button" class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Settings</button>
+    <h3>Password</h3>
+    <div class="signed-out-msg"><p>Sign in to manage your account.</p><button type="button" class="btn block" data-signin>Sign In / Create Account</button></div>
+    <form id="password-form" class="auth-form account-form signed-in-only" novalidate>
+      <label>Current Password<input name="currentPassword" type="password" required autocomplete="current-password"></label>
+      <label>New Password <small>(at least 8 characters)</small><input name="newPassword" type="password" required minlength="8" autocomplete="new-password"></label>
+      <label>Confirm New Password<input name="confirm" type="password" required minlength="8" autocomplete="new-password"></label>
+      <button class="btn block" type="submit">Update Password</button>
+      <p class="auth-status" role="status"></p>
+    </form>
+  </div>
+
+  <div class="s-page" data-page="theme" hidden>
+    <button type="button" class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Settings</button>
+    <h3>Theme</h3>
+    <div class="segmented" id="theme-switch">
+      <button type="button" data-theme="light">Light</button>
+      <button type="button" data-theme="dark">Dark</button>
+      <button type="button" data-theme="system">System</button>
+    </div>
+  </div>
+
+  <div class="s-page" data-page="language" hidden>
+    <button type="button" class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Settings</button>
+    <h3>Language</h3>
+    <div class="lang-picker compact" id="settings-lang"></div>
+    <p class="lang-note">Translated automatically by Google.</p>
+  </div>
+</div>
+
+
+<section id="home" class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Every customer's first choice</p>
+    <h1>Indian Farmer Electronics Device</h1>
+    <p>Manufacturers of reliable motor starters, control panels and power-saving equipment for farms, homes and industry.</p>
+    <div class="hero-actions"><a href="#services" class="btn">View Products</a><a href="#contact" class="btn ghost">Enquire Now</a></div>
+  </div>
+  <div class="slider" id="slider">
+    <img src="images/slide1.jpg" alt="Indian Farmer Electronics Device product" class="active">
+    <img src="images/slide2.jpg" alt="Indian Farmer Electronics Device product"><img src="images/slide3.jpeg" alt="Indian Farmer Electronics Device product">
+    <img src="images/slide4.jpg" alt="Indian Farmer Electronics Device product"><img src="images/slide5.jpeg" alt="Indian Farmer Electronics Device product">
+    <img src="images/slide6.jpg" alt="Indian Farmer Electronics Device product"><img src="images/slide7.jpeg" alt="Indian Farmer Electronics Device product">
+    <img src="images/slide8.jpeg" alt="Indian Farmer Electronics Device product">
+  </div>
+</section>
+
+<section class="band">
+  <h2>We Manufacture</h2>
+  <ul class="chips">
+    <li>3 Phase Motor Control Panel</li><li>Single Phase Motor Control Panel</li><li>All Types Submersible Motor Starter</li>
+    <li>Home Automation &amp; Power Saving Device</li><li>Solar Power Equipment &amp; Installation</li>
+    <li>3 Phase &amp; Single Phase Automatic Changeover</li><li>Industrial Electrical &amp; Electronics Equipment</li>
+  </ul>
+</section>
+
+<section id="gallery" class="section">
+  <h2>Product Gallery</h2>
+  <div class="gallery">
+    <img src="images/farm-15hp.jpg" alt="Farm Series 15 HP" loading="lazy">
+    <img src="images/farm-10hp.jpg" alt="Farm Series 10 HP" loading="lazy">
+    <img src="images/home-3hp.jpg" alt="Home Series 3 HP" loading="lazy">
+    <img src="images/home-2hp.jpg" alt="Home Series 2 HP" loading="lazy">
+    <img src="images/home-1hp-rts7.jpg" alt="Home Series 1 HP" loading="lazy">
+    <img src="images/home-1hp-sts3.jpg" alt="Home Series 1 HP Compact" loading="lazy">
+    <img src="images/sensor-1hp.jpg" alt="Sensor Series 1 HP" loading="lazy">
+    <img src="images/chaff-cutter.jpg" alt="Chaff Cutter Starter" loading="lazy">
+  </div>
+</section>
+
+<section id="services" class="section alt">
+  <h2>Our Services &amp; Products</h2>
+  <p class="sub">Fully automatic, built to protect your motors and save electricity.</p>
+  <div class="cards" id="products"></div>
+</section>
+
+<section id="team" class="section">
+  <h2>Our Team</h2>
+  <p class="sub">The work our team does together benefits not only the team but the entire nation. We strive to create something new every day.</p>
+  <div class="team">
+    <figure><img src="images/dharmendra.jpeg" alt="Dharmendra Kumar"><figcaption><b>Dharmendra Kumar</b>Director</figcaption></figure>
+    <figure><img src="images/aanchal.jpeg" alt="Aanchal Malik"><figcaption><b>Aanchal Malik</b>Sales Manager</figcaption></figure>
+    <figure><img src="images/naman.jpeg" alt="Naman Kumar"><figcaption><b>Naman Kumar</b>Marketing Manager</figcaption></figure>
+    <figure><img src="images/vishnu.jpeg" alt="Vishnu Kumar"><figcaption><b>Vishnu Kumar</b>Production Manager</figcaption></figure>
+    <figure><img src="images/abhishek.jpeg" alt="Abhishek Kumar"><figcaption><b>Abhishek Kumar</b>Technical Field Engineer</figcaption></figure>
+    <figure><img src="images/priyanshu.jpeg" alt="Priyanshu Malik"><figcaption><b>Priyanshu Malik</b>Production Supervisor</figcaption></figure>
+  </div>
+</section>
+
+<section id="contact" class="section alt">
+  <h2>Contact Us</h2>
+  <div class="contact">
+    <div class="info">
+      <h3>Get in Touch</h3>
+      <dl>
+        <dt>Phone</dt><dd class="notranslate"><a href="tel:+918474999040">+91 84749 99040</a><br><a href="tel:+919560776047">+91 95607 76047</a></dd>
+        <dt>Email</dt><dd class="notranslate"><a href="mailto:ifed102017@gmail.com">ifed102017@gmail.com</a></dd>
+        <dt>Address</dt><dd>Vill: Alawalpur Udda, Post: Mangolpura Roopchand,<br>Distt: Bijnor – 246701, Uttar Pradesh</dd>
+        <dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/dharmendra-malik-a6876b231/" target="_blank" rel="noopener">Dharmendra Malik</a></dd>
+        <dt>YouTube</dt><dd><a href="https://www.youtube.com/@dksmalik1838" target="_blank" rel="noopener">@dksmalik1838</a></dd>
+      </dl>
+    </div>
+    <form id="order-form">
+      <h3>Place an Order or Enquiry</h3>
+      <label>Name<input name="name" required maxlength="80"></label>
+      <label>Email<input name="email" type="email" required maxlength="120"></label>
+      <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15"></label>
+      <label>Product<select name="product" id="product-select" required></select></label>
+      <label>Message (optional)<textarea name="message" rows="3" maxlength="1000"></textarea></label>
+      <button class="btn" type="submit">Send</button>
+      <p id="form-status" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p><b>Indian Farmer Electronics Device</b> · Every customer's first choice</p>
+  <p>© <span id="yr"></span> Indian Farmer Electronics Device. All rights reserved.</p>
+</footer>
+<div id="google_translate_element" hidden></div>
+<script src="languages.js"></script>
+<script src="script.js"></script>
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</body>
+</html>
