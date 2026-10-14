@@ -151,8 +151,8 @@
     <form id="order-form">
       <h3>Place an Order or Enquiry</h3>
       <label>Name<input name="name" required maxlength="80"></label>
-      <label>Email<input name="email" type="email" required maxlength="120"></label>
-      <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15"></label>
+      <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15" title="Enter a 10 to 15 digit phone number"></label>
+      <label>Email (optional)<input name="email" type="email" maxlength="120"></label>
       <label>Product<select name="product" id="product-select" required></select></label>
       <label>Message (optional)<textarea name="message" rows="3" maxlength="1000"></textarea></label>
       <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">

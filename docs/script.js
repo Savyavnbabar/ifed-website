@@ -70,9 +70,10 @@ form.addEventListener('submit', async e => {
   btn.disabled = true; status.className = ''; status.textContent = 'Sending…';
   try {
     const data = Object.fromEntries(new FormData(form));
+    if (!data.email) delete data.email;
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ ...data, access_key: WEB3FORMS_KEY, replyto: data.email,
+      body: JSON.stringify({ ...data, access_key: WEB3FORMS_KEY, ...(data.email && { replyto: data.email }),
         subject: `New order: ${data.product} – ${data.name}`, from_name: 'Indian Farmer Electronics Device Website' }),
     });
     const out = await res.json();
