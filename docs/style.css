@@ -166,7 +166,7 @@ footer b { color: #fff; }
   box-shadow: var(--shadow); padding: 32px 28px; text-align: center; }
 .welcome-logo { height: 72px; margin: 0 auto 12px; }
 .welcome h1 { font-size: clamp(1.3rem, 4vw, 1.6rem); line-height: 1.3; }
-.welcome-sub { color: var(--muted); margin: 0 0 14px; }
+.welcome-sub { color: var(--muted); margin: 12px 0 16px; }
 .steps { list-style: none; padding: 0; display: flex; justify-content: center; gap: 8px; margin: 16px 0 20px; counter-reset: s; }
 .steps li { counter-increment: s; font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 .steps li::before { content: counter(s); display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
@@ -199,21 +199,6 @@ footer b { color: #fff; }
 .account-row p { margin: 0; }
 @media (max-width: 480px) { .welcome-card { padding: 24px 18px; } .settings { max-height: calc(100vh - 80px); overflow-y: auto; } }
 
-/* Password show/hide */
-.pw-wrap { position: relative; display: block; }
-.pw-wrap input { padding-right: 64px; }
-.pw-toggle { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: 0; background: none;
-  font: 600 .85rem Jost, sans-serif; color: var(--link); cursor: pointer; padding: 6px 8px; border-radius: 6px; }
-.pw-toggle:hover { background: var(--bg-alt); }
-
-/* Edit account in Settings */
-.settings { max-height: calc(100vh - 88px); overflow-y: auto; }
-.account-form { margin-top: 14px; padding: 14px 0 0; border-top: 1px solid var(--border); box-shadow: none; background: none; gap: 10px; }
-.account-form label { font-size: .88rem; }
-.account-form small { font-weight: 400; color: var(--muted); }
-.account-form .btn.block { margin-top: 4px; }
-.auth-status.ok { color: #19a37e; }
-
 /* Settings menu + pages */
 .menu-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px; margin-top: 6px; text-align: left;
   border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); cursor: pointer; font: inherit; transition: .2s; }
@@ -232,3 +217,6 @@ footer b { color: #fff; }
 .signed-out-msg p { color: var(--muted); margin: 0; }
 .account-form .btn.ghost.block { margin-top: 0; }
 .settings .account-form { border-top: 0; padding-top: 0; margin-top: 0; }
+
+.hp { display: none !important; }
+.settings { max-height: calc(100vh - 88px); overflow-y: auto; }

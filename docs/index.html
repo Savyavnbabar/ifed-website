@@ -23,37 +23,11 @@
   <div class="welcome-card">
     <img src="images/logo.png" alt="" class="welcome-logo">
     <h1 id="welcome-title">Welcome to <span class="notranslate">Indian Farmer Electronics Device</span></h1>
-    <ol class="steps"><li class="active" data-step-dot="1">Language</li><li data-step-dot="2">Account</li></ol>
 
     <section class="step" data-step="1">
       <p class="welcome-sub">Choose your language. You can type its name or pick it from the list.</p>
       <div class="lang-picker" id="welcome-lang"></div>
-      <button class="btn block" id="lang-next" type="button">Continue</button>
-    </section>
-
-    <section class="step" data-step="2" hidden>
-      <div class="tabs" role="tablist">
-        <button type="button" class="active" data-tab="register">Create Account</button>
-        <button type="button" data-tab="login">Sign In</button>
-      </div>
-      <form id="register-form" class="auth-form" novalidate>
-        <label>Full Name<input name="name" required maxlength="80" autocomplete="name"></label>
-        <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
-        <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15" autocomplete="tel"></label>
-        <label>Password<input name="password" type="password" required minlength="8" autocomplete="new-password"></label>
-        <label>Confirm Password<input name="confirm" type="password" required minlength="8" autocomplete="new-password"></label>
-        <button class="btn block" type="submit">Create Account</button>
-      </form>
-      <form id="login-form" class="auth-form" novalidate hidden>
-        <label>Email<input name="email" type="email" required autocomplete="email"></label>
-        <label>Password<input name="password" type="password" required autocomplete="current-password"></label>
-        <button class="btn block" type="submit">Sign In</button>
-      </form>
-      <p class="auth-status" role="status"></p>
-      <div class="welcome-foot">
-        <button type="button" class="link-btn" id="back-to-lang">← Change language</button>
-        <button type="button" class="link-btn" id="guest-btn">Continue as guest</button>
-      </div>
+      <button class="btn block" id="lang-next" type="button">Enter Website</button>
     </section>
   </div>
 </div>
@@ -73,14 +47,6 @@
 <div class="settings" id="settings" role="dialog" aria-label="Settings">
   <div class="s-page" data-page="menu">
     <h3>Settings</h3>
-    <button type="button" class="menu-item" data-open="account">
-      <span class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
-      <span class="mi-text"><b>Account</b><small id="sub-account">Name, email and phone</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-    </button>
-    <button type="button" class="menu-item" data-open="password">
-      <span class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-      <span class="mi-text"><b>Password</b><small id="sub-password">Change your password</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-    </button>
     <button type="button" class="menu-item" data-open="theme">
       <span class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
       <span class="mi-text"><b>Theme</b><small id="sub-theme">Light, dark or system</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -91,33 +57,6 @@
     </button>
   </div>
 
-  <div class="s-page" data-page="account" hidden>
-    <button type="button" class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Settings</button>
-    <h3>Account</h3>
-    <div class="signed-out-msg"><p>Sign in to manage your account.</p><button type="button" class="btn block" data-signin>Sign In / Create Account</button></div>
-    <form id="account-form" class="auth-form account-form signed-in-only" novalidate>
-      <label>Full Name<input name="name" required maxlength="80" autocomplete="name"></label>
-      <label>Email<input name="newEmail" type="email" required maxlength="120" autocomplete="email"></label>
-      <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15" autocomplete="tel"></label>
-      <label>Current Password <small>(required to save)</small><input name="currentPassword" type="password" required autocomplete="current-password"></label>
-      <button class="btn block" type="submit">Save Changes</button>
-      <p class="auth-status" role="status"></p>
-      <button type="button" class="btn ghost block" id="sign-out">Sign Out</button>
-    </form>
-  </div>
-
-  <div class="s-page" data-page="password" hidden>
-    <button type="button" class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Settings</button>
-    <h3>Password</h3>
-    <div class="signed-out-msg"><p>Sign in to manage your account.</p><button type="button" class="btn block" data-signin>Sign In / Create Account</button></div>
-    <form id="password-form" class="auth-form account-form signed-in-only" novalidate>
-      <label>Current Password<input name="currentPassword" type="password" required autocomplete="current-password"></label>
-      <label>New Password <small>(at least 8 characters)</small><input name="newPassword" type="password" required minlength="8" autocomplete="new-password"></label>
-      <label>Confirm New Password<input name="confirm" type="password" required minlength="8" autocomplete="new-password"></label>
-      <button class="btn block" type="submit">Update Password</button>
-      <p class="auth-status" role="status"></p>
-    </form>
-  </div>
 
   <div class="s-page" data-page="theme" hidden>
     <button type="button" class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Settings</button>
@@ -216,6 +155,7 @@
       <label>Phone<input name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" maxlength="15"></label>
       <label>Product<select name="product" id="product-select" required></select></label>
       <label>Message (optional)<textarea name="message" rows="3" maxlength="1000"></textarea></label>
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="btn" type="submit">Send</button>
       <p id="form-status" role="status"></p>
     </form>

@@ -59,7 +59,9 @@ const slides = document.querySelectorAll('#slider img');
 let i = 0;
 setInterval(() => { slides[i].classList.remove('active'); i = (i + 1) % slides.length; slides[i].classList.add('active'); }, 3500);
 
-// Form submit
+// Order form -> Web3Forms (free; emails each order to the address the access key was created with)
+// Get a key at https://web3forms.com using ifed102017@gmail.com, then paste it here.
+const WEB3FORMS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
 const form = document.getElementById('order-form');
 const status = document.getElementById('form-status');
 form.addEventListener('submit', async e => {
@@ -67,14 +69,16 @@ form.addEventListener('submit', async e => {
   const btn = form.querySelector('button');
   btn.disabled = true; status.className = ''; status.textContent = 'Sending…';
   try {
-    const res = await fetch('/api/order', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    const data = Object.fromEntries(new FormData(form));
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ ...data, access_key: WEB3FORMS_KEY, replyto: data.email,
+        subject: `New order: ${data.product} – ${data.name}`, from_name: 'Indian Farmer Electronics Device Website' }),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed');
+    const out = await res.json();
+    if (!out.success) throw new Error(out.message || 'Failed');
     status.className = 'ok'; status.textContent = 'Thank you! We will contact you shortly.';
-    form.reset(); applyUser();
+    form.reset();
   } catch (err) {
     status.className = 'err'; status.textContent = 'Could not send. Please call +91 84749 99040.';
   } finally { btn.disabled = false; }
@@ -170,150 +174,21 @@ let settingsPicker;
 const welcomePicker = mountPicker(document.getElementById('welcome-lang'), code => { setLanguage(code); settingsPicker.refresh(); });
 settingsPicker = mountPicker(document.getElementById('settings-lang'), code => { setLanguage(code); welcomePicker.refresh(); });
 
-// ---------- Welcome & account ----------
-const welcome = document.getElementById('welcome');
-const authStatus = welcome.querySelector('.auth-status');
-function showStep(n) {
-  welcome.querySelectorAll('[data-step]').forEach(s => { s.hidden = s.dataset.step !== String(n); });
-  welcome.querySelectorAll('[data-step-dot]').forEach(d => d.classList.toggle('active', +d.dataset.stepDot <= n));
-}
-document.getElementById('lang-next').addEventListener('click', () => showStep(2));
-document.getElementById('back-to-lang').addEventListener('click', () => showStep(1));
-
-welcome.querySelector('.tabs').addEventListener('click', e => {
-  const tab = e.target.dataset.tab;
-  if (!tab) return;
-  welcome.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  document.getElementById('register-form').hidden = tab !== 'register';
-  document.getElementById('login-form').hidden = tab !== 'login';
-  authStatus.textContent = '';
-});
-
-function finishWelcome(user) {
+// ---------- Welcome (first visit: choose language) ----------
+document.getElementById('lang-next').addEventListener('click', () => {
   store.set('welcomeDone', '1');
-  if (user) store.set('user', JSON.stringify(user));
   document.documentElement.classList.remove('show-welcome');
-  applyUser();
-}
-document.getElementById('guest-btn').addEventListener('click', () => finishWelcome(null));
-
-async function submitAuth(form, url, extra) {
-  if (!form.reportValidity()) return;
-  const data = Object.fromEntries(new FormData(form));
-  if (data.confirm !== undefined && data.confirm !== data.password) {
-    authStatus.className = 'auth-status err'; authStatus.textContent = 'Passwords do not match.'; return;
-  }
-  const btn = form.querySelector('button');
-  btn.disabled = true; authStatus.className = 'auth-status'; authStatus.textContent = 'Please wait…';
-  try {
-    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, ...extra }) });
-    const out = await res.json();
-    if (!res.ok) throw new Error(out.error || 'Something went wrong.');
-    if (out.user.language && out.user.language !== store.get('lang')) setLanguage(out.user.language);
-    authStatus.textContent = '';
-    form.reset();
-    finishWelcome(out.user);
-  } catch (err) {
-    authStatus.className = 'auth-status err'; authStatus.textContent = err.message;
-  } finally { btn.disabled = false; }
-}
-document.getElementById('register-form').addEventListener('submit', e => {
-  e.preventDefault(); submitAuth(e.target, '/api/register', { language: store.get('lang') || 'en' });
-});
-document.getElementById('login-form').addEventListener('submit', e => {
-  e.preventDefault(); submitAuth(e.target, '/api/login', {});
 });
 
-// Show the signed-in user in Settings and prefill the order form
-function applyUser() {
-  const user = currentUser();
-  settings.classList.toggle('signed-in', !!user);
-  document.getElementById('sub-account').textContent = user ? user.name : 'Not signed in';
-  if (!user) return;
-  ['name', 'email', 'phone'].forEach(k => { const f = form.elements[k]; if (f && !f.value) f.value = user[k] || ''; });
-}
-
-// Settings pages: menu with Account, Password, Theme, Language
-function currentUser() { try { return JSON.parse(store.get('user')); } catch (e) { return null; } }
+// ---------- Settings pages: Theme and Language ----------
 function openPage(name) {
   settings.querySelectorAll('.s-page').forEach(pg => { pg.hidden = pg.dataset.page !== name; });
-  settings.querySelectorAll('.auth-status').forEach(st => { st.textContent = ''; });
-  const user = currentUser();
-  if (name === 'account' && user) {
-    const f = document.getElementById('account-form');
-    f.elements.name.value = user.name || ''; f.elements.newEmail.value = user.email || ''; f.elements.phone.value = user.phone || '';
-  }
   settings.scrollTop = 0;
 }
 settings.addEventListener('click', e => {
   const open = e.target.closest('[data-open]');
   if (open) return openPage(open.dataset.open);
-  if (e.target.closest('[data-back]')) return openPage('menu');
-  if (e.target.closest('[data-signin]')) {
-    settings.classList.remove('open');
-    showStep(2); document.documentElement.classList.add('show-welcome');
-  }
+  if (e.target.closest('[data-back]')) openPage('menu');
 });
 settingsBtn.addEventListener('click', () => openPage('menu'));
-
-async function saveAccount(f, body, okMsg) {
-  const st = f.querySelector('.auth-status');
-  const btn = f.querySelector('button[type=submit]');
-  btn.disabled = true; st.className = 'auth-status'; st.textContent = 'Saving…';
-  try {
-    const res = await fetch('/api/account', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    const out = await res.json();
-    if (!res.ok) throw new Error(out.error || 'Could not save changes.');
-    store.set('user', JSON.stringify(out.user));
-    ['name', 'email', 'phone'].forEach(k => { form.elements[k].value = out.user[k] || ''; });
-    applyUser();
-    f.querySelectorAll('.pw-wrap input').forEach(i => { i.value = ''; });
-    st.className = 'auth-status ok'; st.textContent = okMsg;
-  } catch (err) {
-    st.className = 'auth-status err'; st.textContent = err.message;
-  } finally { btn.disabled = false; }
-}
-document.getElementById('account-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = e.target, user = currentUser();
-  if (!f.reportValidity() || !user) return;
-  saveAccount(f, { ...Object.fromEntries(new FormData(f)), email: user.email, language: store.get('lang') || 'en' }, 'Changes saved.');
-});
-document.getElementById('password-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = e.target, user = currentUser();
-  if (!f.reportValidity() || !user) return;
-  const d = Object.fromEntries(new FormData(f));
-  if (d.newPassword !== d.confirm) {
-    const st = f.querySelector('.auth-status'); st.className = 'auth-status err'; st.textContent = 'New passwords do not match.'; return;
-  }
-  saveAccount(f, { email: user.email, newEmail: user.email, name: user.name, phone: user.phone,
-    currentPassword: d.currentPassword, newPassword: d.newPassword, language: store.get('lang') || 'en' }, 'Password updated.');
-});
-
-// Show / hide toggle on every password field
-document.querySelectorAll('input[type=password]').forEach(input => {
-  const wrap = document.createElement('span');
-  wrap.className = 'pw-wrap';
-  input.replaceWith(wrap); wrap.append(input);
-  const btn = document.createElement('button');
-  btn.type = 'button'; btn.className = 'pw-toggle'; btn.textContent = 'Show';
-  btn.setAttribute('aria-label', 'Show password');
-  btn.addEventListener('click', () => {
-    const show = input.type === 'password';
-    input.type = show ? 'text' : 'password';
-    btn.textContent = show ? 'Hide' : 'Show';
-    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
-  });
-  wrap.append(btn);
-});
-
-document.getElementById('sign-out').addEventListener('click', () => {
-  store.del('user'); store.del('welcomeDone');
-  form.reset(); settings.classList.remove('open');
-  showStep(1); document.documentElement.classList.add('show-welcome');
-  applyUser();
-});
-applyUser();
 document.getElementById('sub-language').textContent = langName(store.get('lang') || 'en');
