@@ -61,7 +61,7 @@ setInterval(() => { slides[i].classList.remove('active'); i = (i + 1) % slides.l
 
 // Order form -> Web3Forms (free; emails each order to the address the access key was created with)
 // Get a key at https://web3forms.com using ifed102017@gmail.com, then paste it here.
-const WEB3FORMS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+const WEB3FORMS_KEY = 'c0cc7179-3b64-4943-ad09-938d47f9466e';
 const form = document.getElementById('order-form');
 const status = document.getElementById('form-status');
 form.addEventListener('submit', async e => {
