@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json({ limit: '10kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Nodemailer with Gmail (needs a Gmail App Password in .env)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
